@@ -38,7 +38,7 @@ const sendTelegramMessage = (formData) => {
     });
 };
 
-document.getElementById("telegramForm").addEventListener("submit", function(event) {
+document.getElementById("telegram").addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent the default form submission
 
     const formData = new FormData(event.target);
