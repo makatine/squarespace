@@ -31,7 +31,6 @@ const sendTelegramMessage = (formData) => {
         return response.json();
     })
     .then(data => {
-        // Handle successful message sending
         console.log(data);
     })
     .catch(error => {
@@ -39,7 +38,12 @@ const sendTelegramMessage = (formData) => {
     });
 };
 
-// Example usage: Call sendTelegramMessage(formData) with your form data object
-// Replace formData with your actual form data object
-// For testing purposes, you can create a sample form data object like:
-// const formData = { name: 'John Doe', email: 'johndoe@example.com', message: 'Hello, World!' };
+document.getElementById("telegramForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    let formDataObject = {};
+    formData.forEach((value, key) => {
+        formDataObject[key] = value;
+    });
+    sendTelegramMessage(formDataObject);
+});
