@@ -8,28 +8,30 @@
 <body>
     <form id="yourFormId">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name"><br><br>
+        <input type="text" name="name"><br><br>
         
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email"><br><br>
+        <input type="email" name="email"><br><br>
         
         <label for="message">Message:</label>
-        <textarea id="message" name="message"></textarea><br><br>
+        <textarea name="message"></textarea><br><br>
         
-        <button type="button" onclick="sendMessage()">Send Message</button>
+        <button type="submit">Send Message</button>
     </form>
 
     <script>
-        const telegram_bot_id = "6331823095:AAGCI0yP2ZXroAUMtassDfqmnkrJIMp908I";
-        const chat_id = 6711432012;
+        const telegram_bot_id = "1949574883:AAG-88xhsq8h0rBEUxf_Ra7NDjU_408JL-E";
+        const chat_id = 1467252650;
 
         const prepareMessage = () => {
             const formData = new FormData(document.getElementById("yourFormId"));
-            const name = formData.get("name");
-            const email = formData.get("email");
-            const messageContent = formData.get("message");
-            
-            return `Name: ${name}\nEmail: ${email}\nMessage: ${messageContent}`;
+            let message = "";
+
+            for (const [key, value] of formData.entries()) {
+                message += `${key}: ${value}\n`;
+            }
+
+            return message.trim();
         };
 
         const sendMessage = () => {
@@ -59,6 +61,11 @@
             document.getElementById("yourFormId").reset();
             return false;
         };
+
+        document.getElementById("yourFormId").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+            sendMessage(); // Call sendMessage function
+        });
     </script>
 </body>
 </html>
