@@ -39,7 +39,8 @@ const sendTelegramMessage = (formData) => {
 };
 
 document.getElementById("telegramForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+    event.preventDefault(); // Prevent the default form submission
+
     const formData = new FormData(event.target);
     let formDataObject = {};
     formData.forEach((value, key) => {
