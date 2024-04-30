@@ -46,5 +46,15 @@ document.getElementById("telegramForm").addEventListener("submit", function(even
     formData.forEach((value, key) => {
         formDataObject[key] = value;
     });
+    
     sendTelegramMessage(formDataObject);
+
+    // Extract the redirect URL from the custom attribute
+    const redirectUrl = event.target.getAttribute('redirect');
+
+    // Redirect the user to the specified URL after form submission
+    if (redirectUrl) {
+        window.location.href = redirectUrl;
+    }
 });
+
