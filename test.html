@@ -24,15 +24,15 @@
 const chat_id = 6711432012;
 
 
-  const prepareMessage = () => {
+ const prepareMessage = () => {
     const formData = new FormData(document.getElementById("yourFormId"));
-    let message = "```\n"; // Start the message with triple backticks for monospace formatting
+    let message = "<pre>"; // Start the message with <pre> tag for preformatted text
 
     for (const [key, value] of formData.entries()) {
-        message += `${key}: \`${value}\`\n`; // Wrap the input values in backticks for monospace formatting
+        message += `${key}: <code>${value}</code><br>`; // Wrap the input values in <code> tags for monospace formatting
     }
 
-    message += "```"; // End the message with triple backticks
+    message += "</pre>"; // End the message with </pre> tag
 
     return message;
 };
