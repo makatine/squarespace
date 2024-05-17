@@ -11,11 +11,7 @@ const sendTelegramMessage = (formData) => {
     }
 
     const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    const postData = new URLSearchParams({
-        'chat_id': chatId,
-        'text': message,
-        'parse_mode': 'Markdown'
-    });
+    const postData = `chat_id=${encodeURIComponent(chatId)}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
     fetch(telegramApiUrl, {
         method: 'POST',
@@ -57,4 +53,3 @@ document.getElementById("telegram").addEventListener("submit", function(event) {
         window.location.href = redirectUrl;
     }
 });
-
